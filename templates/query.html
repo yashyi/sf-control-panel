@@ -1,0 +1,60 @@
+<!-- query.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h4>Query Tool</h4>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                {{ form.query.label(class="form-label") }}
+                {{ form.query(class="form-control query-editor", rows=8) }}
+                <div class="form-text">Enter your SQL query here.</div>
+            </div>
+            <div class="mb-3">
+                {{ form.warehouse.label(class="form-label") }}
+                {{ form.warehouse(class="form-select") }}
+                <div class="form-text">Select warehouse size for this query.</div>
+            </div>
+            <div class="mb-3">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+        
+        {% if error %}
+        <div class="alert alert-danger mt-3">
+            <strong>Error:</strong> {{ error }}
+        </div>
+        {% endif %}
+        
+        {% if results %}
+        <div class="mt-4">
+            <h5>Query Results</h5>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            {% for col in column_names %}
+                            <th>{{ col }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in results %}
+                        <tr>
+                            {% for cell in row %}
+                            <td>{{ cell }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

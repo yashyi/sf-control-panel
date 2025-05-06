@@ -1,0 +1,39 @@
+<!-- dashboard.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h4>Admin Dashboard</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="credits-chart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="users-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var creditsData = JSON.parse('{{ charts.credits | safe | escapejs }}');
+    var usersData = JSON.parse('{{ charts.users | safe | escapejs }}');
+    
+    Plotly.newPlot('credits-chart', creditsData.data, creditsData.layout);
+    Plotly.newPlot('users-chart', usersData.data, usersData.layout);
+});
+
+</script>
+{% endblock %}
